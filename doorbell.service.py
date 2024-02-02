@@ -1,8 +1,15 @@
+import logging
+import logging.handlers
 import smbus
 import socket
 import sys
 import time
 from datetime import datetime
+
+_logger = logging.getLogger('doorbell')
+_logger.setLevel(logging.DEBUG)
+_handler = logging.handlers.SysLogHandler(address = '/dev/log')
+_logger.addHandler(_handler)
 
 # from https://www.waveshare.com/wiki/Current/Power_Monitor_HAT
 
@@ -198,50 +205,21 @@ class INA219:
 
 
 if __name__=='__main__':
-
-#    ina1 = INA219(addr=0x40)
-#    ina2 = INA219(addr=0x41)
-#    ina3 = INA219(addr=0x42)
     ina4 = INA219(addr=0x43)
-
-    sys.stdout.write("Monitoring doorbell...")
+    _logger.debug("Monitoring doorbell...")
 
     while True:
-#        bus_voltage1 = ina1.getBusVoltage_V()             # voltage on V- (load side)
-#        shunt_voltage1 = ina1.getShuntVoltage_mV() / 1000 # voltage between V+ and V- across the shunt
-#        current1 = ina1.getCurrent_mA()                   # current in mA
-#        power1 = ina1.getPower_W()                        # power in watts
-
-#        bus_voltage2 = ina2.getBusVoltage_V()             # voltage on V- (load side)
-#        shunt_voltage2 = ina2.getShuntVoltage_mV() / 1000 # voltage between V+ and V- across the shunt
-#        current2 = ina2.getCurrent_mA()                   # current in mA
-#        power2 = ina2.getPower_W()                        # power in watts
-
-#        bus_voltage3 = ina3.getBusVoltage_V()             # voltage on V- (load side)
-#        shunt_voltage3 = ina3.getShuntVoltage_mV() / 1000 # voltage between V+ and V- across the shunt
-#        current3 = ina3.getCurrent_mA()                   # current in mA
-#        power3 = ina3.getPower_W()                        # power in watts
-
-#        bus_voltage4 = ina4.getBusVoltage_V()             # voltage on V- (load side)
-#        shunt_voltage4 = ina4.getShuntVoltage_mV() / 1000 # voltage between V+ and V- across the shunt
-#        current4 = ina4.getCurrent_mA()                   # current in mA
         power4 = ina4.getPower_W()                        # power in watts
 
         # INA219 measure bus voltage on the load side. So PSU voltage = bus_voltage + shunt_voltage
-#        print("PSU Voltage:{:6.3f}V    Shunt Voltage:{:9.6f}V    Load Voltage:{:6.3f}V    Power:{:9.6f}W    Current:{:9.6f}A".format((bus_voltage1 + shunt_voltage1),(shunt_voltage1),(bus_voltage1),(power1),(current1/1000)))
-#        print("PSU Voltage:{:6.3f}V    Shunt Voltage:{:9.6f}V    Load Voltage:{:6.3f}V    Power:{:9.6f}W    Current:{:9.6f}A".format((bus_voltage2 + shunt_voltage2),(shunt_voltage2),(bus_voltage2),(power2),(current2/1000)))
-#        print("PSU Voltage:{:6.3f}V    Shunt Voltage:{:9.6f}V    Load Voltage:{:6.3f}V    Power:{:9.6f}W    Current:{:9.6f}A".format((bus_voltage3 + shunt_voltage3),(shunt_voltage3),(bus_voltage3),(power3),(current3/1000)))
-#        print("PSU Voltage:{:6.3f}V    Shunt Voltage:{:9.6f}V    Load Voltage:{:6.3f}V    Power:{:9.6f}W    Current:{:9.6f}A".format((bus_voltage4 + shunt_voltage4),(shunt_voltage4),(bus_voltage4),(power4),(current3/1000)))
         doorbell_rang = False
         if power4 > 1 and doorbell_rang != True :
-             sys.stdout.write("ring ring")
-             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
-             sock.sendto(_UDP_MESSAGE.encode(), (_UDP_IP, _UDP_PORT))
-             doorbell_rang = True
-             doorbell_time = datetime.now       
-        else:
-             sys.stdout.write("-")
-             if doorbell_rang :
-                 doorbell_rang = ((datetime.now - doorbell_time).total_seconds() > 2)
+            _logger.debug("ring ring")
+            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
+            sock.sendto(_UDP_MESSAGE.encode(), (_UDP_IP, _UDP_PORT))
+            doorbell_rang = True
+            doorbell_time = datetime.now       
+        elif doorbell_rang :
+            doorbell_rang = ((datetime.now - doorbell_time).total_seconds() > 2)
 
         time.sleep(.25)
