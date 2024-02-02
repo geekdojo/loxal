@@ -1,5 +1,6 @@
 import smbus
 import socket
+import sys
 import time
 from datetime import datetime
 
@@ -203,7 +204,7 @@ if __name__=='__main__':
 #    ina3 = INA219(addr=0x42)
     ina4 = INA219(addr=0x43)
 
-    print("Monitoring doorbell...")
+    sys.stdout.write("Monitoring doorbell...")
 
     while True:
 #        bus_voltage1 = ina1.getBusVoltage_V()             # voltage on V- (load side)
@@ -233,13 +234,13 @@ if __name__=='__main__':
 #        print("PSU Voltage:{:6.3f}V    Shunt Voltage:{:9.6f}V    Load Voltage:{:6.3f}V    Power:{:9.6f}W    Current:{:9.6f}A".format((bus_voltage4 + shunt_voltage4),(shunt_voltage4),(bus_voltage4),(power4),(current3/1000)))
         doorbell_rang = False
         if power4 > 1 and doorbell_rang != True :
-             print("ring ring")
+             sys.stdout.write("ring ring")
              sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
              sock.sendto(_UDP_MESSAGE.encode(), (_UDP_IP, _UDP_PORT))
              doorbell_rang = True
              doorbell_time = datetime.now       
         else:
-             print("-")
+             sys.stdout.write("-")
              if doorbell_rang :
                  doorbell_rang = ((datetime.now - doorbell_time).total_seconds() > 2)
 
