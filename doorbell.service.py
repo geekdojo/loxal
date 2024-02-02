@@ -241,6 +241,6 @@ if __name__=='__main__':
         else:
              print("-")
              if doorbell_rang :
-                 doorbell_rang = ((datetime.now - doorbell_time).total_seconds > 2)
+                 doorbell_rang = ((datetime.now - doorbell_time).total_seconds() > 2)
 
         time.sleep(.25)
