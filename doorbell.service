@@ -1,0 +1,10 @@
+[Unit]
+Description=Doorbell Service
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/usr/bin/python /home/pi/doorbell.service.py > /home/pi/doorbell.service.log 2>&1
+
+[Install]
+WantedBy=multi-user.target
