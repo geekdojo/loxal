@@ -232,7 +232,7 @@ if __name__=='__main__':
 #        print("PSU Voltage:{:6.3f}V    Shunt Voltage:{:9.6f}V    Load Voltage:{:6.3f}V    Power:{:9.6f}W    Current:{:9.6f}A".format((bus_voltage3 + shunt_voltage3),(shunt_voltage3),(bus_voltage3),(power3),(current3/1000)))
 #        print("PSU Voltage:{:6.3f}V    Shunt Voltage:{:9.6f}V    Load Voltage:{:6.3f}V    Power:{:9.6f}W    Current:{:9.6f}A".format((bus_voltage4 + shunt_voltage4),(shunt_voltage4),(bus_voltage4),(power4),(current3/1000)))
         doorbell_rang = False
-        if power4 > 1 & doorbell_rang != True :
+        if power4 > 1 and doorbell_rang != True :
              print("ring ring")
              sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
              sock.sendto(_UDP_MESSAGE.encode(), (_UDP_IP, _UDP_PORT))
