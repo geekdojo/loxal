@@ -216,5 +216,6 @@ if __name__=='__main__':
             _logger.debug("ring ring")
             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
             sock.sendto(_UDP_MESSAGE.encode(), (_UDP_IP, _UDP_PORT))
+            sock.close()
 
         time.sleep(.25)
