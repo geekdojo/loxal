@@ -205,11 +205,11 @@ class INA219:
 
 
 if __name__=='__main__':
-    ina4 = INA219(addr=0x43)
     _logger.debug("Monitoring doorbell...")
 
     while True:
         _logger.debug("entering loop")
+        ina4 = INA219(addr=0x43)
         power4 = ina4.getPower_W()                        # power in watts
 
         _logger.debug("Power:{:9.6f}W".format((power4)))
