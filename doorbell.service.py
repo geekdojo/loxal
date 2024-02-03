@@ -209,15 +209,21 @@ if __name__=='__main__':
     _logger.debug("Monitoring doorbell...")
 
     while True:
+        _logger.debug("entering loop")
         power4 = ina4.getPower_W()                        # power in watts
 
+        _logger.debug("Power:{:9.6f}W".format((power4)))
         # INA219 measure bus voltage on the load side. So PSU voltage = bus_voltage + shunt_voltage
         if power4 > 1 :
-            _logger.debug("ring ring")
+            _logger.debug("sending udp")
             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
             sock.sendto(_UDP_MESSAGE.encode(), (_UDP_IP, _UDP_PORT))
+            _logger.debug("udp sent")
             sock.close()
+            _logger.debug("socket closed")
 
+        _logger.debug("sleeping 0.25 seconds")
         time.sleep(.25)
+        _logger.debug("looping")
 
 _logger.debug("Doorbell monitor closing...")
