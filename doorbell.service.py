@@ -212,14 +212,9 @@ if __name__=='__main__':
         power4 = ina4.getPower_W()                        # power in watts
 
         # INA219 measure bus voltage on the load side. So PSU voltage = bus_voltage + shunt_voltage
-        doorbell_rang = False
-        if power4 > 1 and doorbell_rang != True :
+        if power4 > 1 :
             _logger.debug("ring ring")
             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
             sock.sendto(_UDP_MESSAGE.encode(), (_UDP_IP, _UDP_PORT))
-            doorbell_rang = True
-            doorbell_time = datetime.now       
-        elif doorbell_rang :
-            doorbell_rang = ((datetime.now - doorbell_time).total_seconds() > 2)
 
         time.sleep(.25)
