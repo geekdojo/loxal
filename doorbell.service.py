@@ -219,3 +219,5 @@ if __name__=='__main__':
             sock.close()
 
         time.sleep(.25)
+
+_logger.debug("Doorbell monitor closing...")
