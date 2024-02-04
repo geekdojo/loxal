@@ -212,9 +212,10 @@ if __name__=='__main__':
         power4 = ina4.getPower_W()                     
 
         if power4 > 1 :
-            _logger.debug("ring ring")
+            _logger.debug("ring ring")            
             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
             sock.sendto(_UDP_MESSAGE.encode(), (_UDP_IP, _UDP_PORT))
+            sock.shutdown(1)
             sock.close()
             
         time.sleep(.25)
