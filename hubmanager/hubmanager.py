@@ -63,7 +63,7 @@ class HubManager():
         self._hubs[hub.id] = hub
         hub.callback_subscribe(self.hub_update_callback)
         # Test we can connect OK first.
-        self.add_job(hub.run)
+        self.async_add_job(hub.run)
         # Wait until we have the rollers setup initially
         await hub.rollers_known.wait()
         print("Hub added to prompt")
@@ -83,7 +83,7 @@ class HubManager():
         try:
             return list(list(self._hubs.values())[hub_id].rollers.values())[roller_id]
         except Exception:
-            print("Invalid arguments {}".format(args))
+            print("Invalid arguments {},{}".format(hub_id, roller_id))
             print(
                 "Format is <hub index> <roller index>. See 'list' for the index of each device."
             )
@@ -136,10 +136,8 @@ class HubManager():
         for hub in self._hubs.values():
             self.add_job(hub.send_payload, jsargs)
 
-    def do_connect(self, hub_ip):
-        """Command to connect all hubs."""
-        if hub_ip not in self._hubs:
-            self.add_job(self.add_hub, hub_ip)
+    async def do_connect(self, hub_ip):
+        await self.add_hub(hub_ip)
 
     def do_disconnect(self):
         """Command to disconnect all connected hubs."""

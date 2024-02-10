@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import threading
 import time
 #from fastapi import FastAPI
 from hubmanager.hubmanager import HubManager
@@ -8,16 +9,15 @@ from hubmanager.hubmanager import HubManager
 async def main():
     event_loop = asyncio.get_running_loop()
     manager = HubManager(event_loop)
-    manager.do_log('debug')
-    manager.do_connect('192.168.201.20')
-
-    while len(manager.get_hubs().keys()) == 0:
-        print("No hubs yet")
-        time.sleep(.25)
-
-    manager.do_list()
-
-    manager.do_exit()
+    manager.do_log('info')
+    manager.async_add_job(manager.add_hub, '192.168.201.20')
+    #await manager.do_connect('192.168.201.20')
+    
+    print("****************************************************************************************")
+    
+    while True:
+        manager.do_list()
+        time.sleep(1)
 
     # app = FastAPI()
 
@@ -32,8 +32,8 @@ async def main():
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    # logging.basicConfig(level=logging.DEBUG)
+    #logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.DEBUG)
     asyncio.run(main())
 
 
