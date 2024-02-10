@@ -168,7 +168,6 @@ class Hub:
         self.rollers[id].set_signal(signal)
 
     def handle_device_query_name_response(self, id: str, name: str):
-        _LOGGER.debug("In the rollers method")
         self.rollers[id].name = name
         self.unknown_rollers.discard(id)
         self.rollers[id].notify_callback()
@@ -222,9 +221,11 @@ class Hub:
 
         See sendws for details.
         """
+        _LOGGER.debug("*************** GOT HERE *************************")
         if not self.running:
             raise errors.NotRunningException
         await self.handshake.wait()
+        _LOGGER.debug("sending payload")
         await self.sendws(jscommand)
 
     async def sendws(self, jscommand: Dict) -> bool:
@@ -558,11 +559,11 @@ class Roller:
             }
         )
 
-    async def move_up(self):
+    async def move_top(self):
         """Send command to move the roller to fully open."""
         await self.move_to(0)
 
-    async def move_down(self):
+    async def move_bottom(self):
         """Send command to move the roller to fully closed."""
         await self.move_to(100)
 

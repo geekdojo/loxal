@@ -8,18 +8,17 @@ from hubmanager.hubmanager import HubManager
 
 async def main():
     event_loop = asyncio.get_running_loop()
-    manager = HubManager(event_loop)
-    manager.do_log('debug')
-    #manager.async_add_job(manager.do_connect, '192.168.201.20')
-    await manager.do_connect('192.168.201.20')
-    
-    manager.do_open(0,0)
+    hubManager = HubManager(event_loop)
+    hubManager.do_log('info')
+    await hubManager.do_connect('192.168.201.20')
+
+    hubManager.do_list()
+    await hubManager.do_open(0,1)
 
     while True:
-        manager.do_list()
         time.sleep(1)
 
-    manager.do_exit()
+    hubManager.do_exit()
 
     # app = FastAPI()
 
@@ -34,8 +33,8 @@ async def main():
 
 
 if __name__ == "__main__":
-    # logging.basicConfig(level=logging.INFO)
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
+    # logging.basicConfig(level=logging.DEBUG)
     asyncio.run(main())
     
 

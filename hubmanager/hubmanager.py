@@ -18,9 +18,6 @@ class HubManager():
         self.running = True
         super().__init__()
 
-    def get_hubs(self):
-        return self._hubs
-
     def add_job(self, target: Callable[..., Any], *args: Any) -> None:
         """Add job to the executor pool.
 
@@ -109,26 +106,26 @@ class HubManager():
             print("Sending blind move to {}".format(roller.name))
             self.add_job(roller.move_to, position)
 
-    def do_close(self, hub_id, roller_id):
+    async def do_close(self, hub_id, roller_id):
         """Command to close a roller."""
         roller = self._get_roller(hub_id, roller_id)
         if roller:
             print("Sending blind down to {}".format(roller.name))
-            self.add_job(roller.move_down)
+            await roller.move_bottom()
 
-    def do_open(self, hub_id, roller_id):
+    async def do_open(self, hub_id, roller_id):
         """Command to open a roller."""
         roller = self._get_roller(hub_id, roller_id)
         if roller:
             print("Sending blind up to {}".format(roller.name))
-            self.add_job(roller.move_up)
+            await roller.move_top()
 
-    def do_stop(self, hub_id, roller_id):
+    async def do_stop(self, hub_id, roller_id):
         """Command to stop a moving roller."""
         roller = self._get_roller(hub_id, roller_id)
         if roller:
             print("Sending blind stop to {}".format(roller.name))
-            self.add_job(roller.move_stop)
+            await roller.move_stop()
 
     def do_send(self, sargs):
         """Send a raw command to each hub."""
