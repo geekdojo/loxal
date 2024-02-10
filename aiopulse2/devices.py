@@ -168,6 +168,7 @@ class Hub:
         self.rollers[id].set_signal(signal)
 
     def handle_device_query_name_response(self, id: str, name: str):
+        _LOGGER.debug("In the rollers method")
         self.rollers[id].name = name
         self.unknown_rollers.discard(id)
         self.rollers[id].notify_callback()
