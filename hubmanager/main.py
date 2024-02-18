@@ -56,8 +56,11 @@ class HubManager():
 
     async def add_hub(self, hub_ip):
         """Add a hub to the prompt."""
+        if hub_ip in self._hubs:
+            return
+
         hub = aiopulse2.Hub(hub_ip)
-        self._hubs[hub.id] = hub
+        self._hubs[hub_ip] = hub
         hub.callback_subscribe(self.hub_update_callback)
         # Test we can connect OK first.
         self.async_add_job(hub.run)
@@ -78,7 +81,7 @@ class HubManager():
     def _get_roller(self, hub_id, roller_id):
         """Return roller based on string argument."""
         try:
-            return list(list(self._hubs.values())[hub_id].rollers.values())[roller_id]
+            return self._hubs[hub_id].rollers[roller_id]
         except Exception:
             print("Invalid arguments {},{}".format(hub_id, roller_id))
             print(
@@ -88,23 +91,23 @@ class HubManager():
 
     def do_list(self):
         """Command to list all hubs and rollers."""
-        print("Listing hubs...")
+        result = ""
         hub_id = 0
         for hub in self._hubs.values():
             hub_id += 1
-            print(f"Hub {hub_id}: {hub}")
+            result = result + (f"Hub {hub_id}: {hub}\n")
             roller_id = 0
             for roller in hub.rollers.values():
                 roller_id += 1
-                print(f"Roller {roller_id}: {roller}")
+                result = result + (f"Roller {roller_id}: {roller}\n")
+        return result
 
-    def do_moveto(self, hub_id, roller_id, position):
+    async def do_moveto(self, hub_id, roller_id, position):
         """Command to tell a roller to move a % closed."""
-        print("Sending move to")
         roller = self._get_roller(hub_id, roller_id)
         if roller:
             print("Sending blind move to {}".format(roller.name))
-            self.add_job(roller.move_to, position)
+            return self.async_add_job(roller.move_to, position)
 
     async def do_close(self, hub_id, roller_id):
         """Command to close a roller."""

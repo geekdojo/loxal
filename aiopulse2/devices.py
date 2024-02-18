@@ -288,7 +288,6 @@ class Hub:
             _LOGGER.info("Connected to %s", self.host)
             self.lasterrorlog = None
         data = jsmsg["result"]["reported"]
-        _LOGGER.debug("Got payload: %s", data)
         newvals = {
             "name": data["name"],
             "id": data["hubId"],
