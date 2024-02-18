@@ -7,7 +7,7 @@ Type=idle
 Restart=on-failure
 RestartSec=5s
 WorkingDirectory=/home/pi/src/loxal
-ExecStart=/usr/bin/python -m uvicorn /home/pi/src/loxal/main:app --reload
+ExecStart=python3 -m uvicorn main:app --host 0.0.0.0 --port 80
 
 [Install]
 WantedBy=multi-user.target
