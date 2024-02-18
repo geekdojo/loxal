@@ -14,7 +14,7 @@ class ShadeGroup():
     def Populate():
         shadeGroups = dict([
             ("Studio", ShadeGroup("192.168.201.20", "Studio", ["NKK", "CYV"])),
-            ("Kitchen", ShadeGroup("192.168.201.20", "Kitchen", ["ZPU"])),
+            ("Kitchen", ShadeGroup("192.168.201.20", "Kitchen", ["VVE"])),
             ("Primary", ShadeGroup("192.168.201.20", "Primary", ["KXJ"]))
         ])
 

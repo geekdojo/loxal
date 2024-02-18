@@ -40,9 +40,16 @@ async def list_hub_and_shade_data(response: Response):
         # print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=f"{e}")
 
-# @app.get("/api/shadecontrol/hub/{hubId}/shade-group/{shadeGroupId}")
-# async def get_shade_position(shadeGroupId: str):
-#     return {"position": 0}
+@app.get("/api/shade-control/shade-group/{shadeGroupId}")
+def get_shade_position(shadeGroupId: str, request: Request, response: Response):
+    try:
+        position = shadeManager.GetShadeGroupPosition(shadeGroupId)        
+        return {"position": position}
+
+    except InvalidShadeGroup as err: 
+        raise HTTPException(status_code=400, detail=f"{err.args[0]}")
+    except Exception as err:
+        raise HTTPException(status_code=500, detail=f"{err}")
 
 
 @app.put("/api/shade-control/shade-group/{shadeGroupId}", status_code=status.HTTP_204_NO_CONTENT)
@@ -57,11 +64,6 @@ async def update_shade_group_position(shadeGroupId: str, request: Request, respo
     except InvalidShadeGroup as err: 
         raise HTTPException(status_code=400, detail=f"{err.args[0]}")
     except Exception as err:
-        exc_type, exc_obj, exc_tb = sys.exc_info()
-        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-        print(exc_type, fname, exc_tb.tb_lineno)
-        print(err)
-        print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=f"{err}")
 
     

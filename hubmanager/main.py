@@ -6,7 +6,7 @@ import json
 from typing import Any, Callable, Optional
 
 import aiopulse2
-from aiopulse2 import _LOGGER
+from aiopulse2 import _LOGGER, Roller
 
 
 class HubManager():
@@ -78,7 +78,7 @@ class HubManager():
         """Called when a roller reports it has updated"""
         print(f"Roller Updated: {roller}")
 
-    def _get_roller(self, hub_id, roller_id):
+    def _get_roller(self, hub_id, roller_id) -> Roller:
         """Return roller based on string argument."""
         try:
             return self._hubs[hub_id].rollers[roller_id]
@@ -88,6 +88,10 @@ class HubManager():
                 "Format is <hub index> <roller index>. See 'list' for the index of each device."
             )
             return None
+
+    def get_position(self, hub_id, roller_id):
+        roller = self._get_roller(hub_id, roller_id)
+        return roller.closed_percent
 
     def do_list(self):
         """Command to list all hubs and rollers."""
@@ -107,7 +111,7 @@ class HubManager():
         roller = self._get_roller(hub_id, roller_id)
         if roller:
             print("Sending blind move to {}".format(roller.name))
-            return self.async_add_job(roller.move_to, position)
+            await self.async_add_job(roller.move_to, position)
 
     async def do_close(self, hub_id, roller_id):
         """Command to close a roller."""

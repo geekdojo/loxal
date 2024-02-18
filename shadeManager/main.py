@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import time
 from shadeManager.models.shadeGroup import ShadeGroup
 from hubmanager.main import HubManager
 
@@ -24,3 +25,16 @@ class ShadeManager():
         
         for shade in shadeGroup.shadeIds :
             await self.hubManager.do_moveto(shadeGroup.hubId, shade, position)
+
+    def GetShadeGroupPosition(self, shadeGroupId: str):
+        if not shadeGroupId in self.shadeGroups :
+            raise InvalidShadeGroup("Cannot find shade group {shadeGroupId}")
+        else:
+            shadeGroup = self.shadeGroups[shadeGroupId]
+        
+        totalPositions = 0
+        for shade in shadeGroup.shadeIds :
+            position = self.hubManager.get_position(shadeGroup.hubId, shade)
+            totalPositions+=position
+
+        return totalPositions / len(shadeGroup.shadeIds)
