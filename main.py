@@ -59,7 +59,11 @@ async def update_shade_group_position(shadeGroupId: str, request: Request, respo
         if not "position" in json:
             raise ValueError("No position attribute specified in json body")
 
-        return await shadeManager.SetShadeGroupPosition(shadeGroupId, json["position"])
+        position = json["position"]
+        if position >= 0:
+            return await shadeManager.SetShadeGroupPosition(shadeGroupId, json["position"])
+        else:
+            return await shadeManager.StopShade(shadeGroupId) 
 
     except InvalidShadeGroup as err: 
         raise HTTPException(status_code=400, detail=f"{err.args[0]}")

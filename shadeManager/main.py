@@ -26,6 +26,18 @@ class ShadeManager():
         for shade in shadeGroup.shadeIds :
             await self.hubManager.do_moveto(shadeGroup.hubId, shade, position)
 
+    async def StopShade(self, shadeGroupId: str):
+        shadeGroup: ShadeGroup
+
+        if not shadeGroupId in self.shadeGroups :
+            raise InvalidShadeGroup("Cannot find shade group {shadeGroupId}")
+        else:
+            shadeGroup = self.shadeGroups[shadeGroupId]
+        
+        for shade in shadeGroup.shadeIds :
+            await self.hubManager.do_stop(shadeGroup.hubId, shade)
+
+
     def GetShadeGroupPosition(self, shadeGroupId: str):
         if not shadeGroupId in self.shadeGroups :
             raise InvalidShadeGroup("Cannot find shade group {shadeGroupId}")
