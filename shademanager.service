@@ -1,10 +1,13 @@
 [Unit]
 Description=Shade Manager Service
-After=multi-user.target
+After=network.target
 
 [Service]
 Type=idle
-ExecStart=/usr/bin/python -m uvicorn /home/pi/src/loxal/shademanager.service:app --reload > /home/pi/src/loxal/shademanager.service.log 2>&1
+Restart=on-failure
+RestartSec=5s
+WorkingDirectory=/home/pi/src/loxal
+ExecStart=/usr/bin/python -m uvicorn /home/pi/src/loxal/main:app --reload
 
 [Install]
 WantedBy=multi-user.target
