@@ -13,9 +13,10 @@ class ShadeGroup():
     @staticmethod
     def Populate():
         shadeGroups = dict([
-            ("Studio", ShadeGroup("192.168.201.20", "Studio", ["NKK", "CYV"])),
+            ("Dining", ShadeGroup("192.168.201.20", "Dining", ["FLI", "EBH"])),
             ("Kitchen", ShadeGroup("192.168.201.20", "Kitchen", ["VVE"])),
-            ("Primary", ShadeGroup("192.168.201.20", "Primary", ["KXJ"]))
+            ("Primary", ShadeGroup("192.168.201.20", "Primary", ["KXJ"])),
+            ("Studio", ShadeGroup("192.168.201.20", "Studio", ["NKK", "CYV"]))
         ])
 
         return shadeGroups
