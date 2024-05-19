@@ -27,6 +27,10 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+@app.get("/")
+async def root():
+    return {"status": "alive"}
+
 @app.get("/api/shade-control", status_code=status.HTTP_200_OK)
 async def list_hub_and_shade_data(response: Response):
     try:
