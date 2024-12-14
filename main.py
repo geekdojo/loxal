@@ -22,6 +22,7 @@ async def lifespan(app: FastAPI):
     #event_loop = asyncio.get_running_loop()
     #hubManager = HubManager(event_loop)
     await hubManager.do_connect('192.168.201.20')
+    await hubManager.do_connect('192.168.201.30')
     yield
     hubManager.do_exit()
 

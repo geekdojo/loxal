@@ -1,0 +1,50 @@
+{
+    "hubs":[
+        {
+            "ip": "192.168.201.20",
+            "shadeGroups": [
+                {
+                    "name":"All",
+                    "shades": ["FLI", "EBH", "YQP", "KTB", "KXJ", "NKK", "CYV"]
+                },
+                {
+                    "name": "Dining", 
+                    "shades": ["FLI", "EBH"]
+                },
+                {
+                    "name": "Kitchn", 
+                    "shades": ["YQP"]
+                },
+                {
+                    "name": "Primary", 
+                    "shades": ["KXJ"]
+                },
+                {
+                    "name": "Studio", 
+                    "shades": ["NKK", "CYV"]
+                }
+            ]
+        },
+        {
+            "ip": "192.168.201.30",
+            "shadeGroups": [
+                {
+                    "name":"All",
+                    "shades": ["CIH","GOV","UUJ", "EIF", "CGZ"]
+                },
+                {
+                    "name": "LivingEast", 
+                    "shades": ["CIH","GOV","UUJ"]
+                },
+                {
+                    "name": "LivingSouth", 
+                    "shades": ["EIF"]
+                },
+                {
+                    "name": "BalconyDoor", 
+                    "shades": ["CGZ"]
+                }
+            ]
+        }
+    ]
+}

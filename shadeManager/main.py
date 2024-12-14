@@ -21,10 +21,11 @@ class ShadeManager():
         if not shadeGroupId in self.shadeGroups :
             raise InvalidShadeGroup("Cannot find shade group {shadeGroupId}")
         else:
-            shadeGroup = self.shadeGroups[shadeGroupId]
+            shadeGrouping = self.shadeGroups[shadeGroupId]
         
-        for shade in shadeGroup.shadeIds :
-            await self.hubManager.do_moveto(shadeGroup.hubId, shade, position)
+        for shadeGroup in shadeGrouping :
+            for shade in shadeGroup.shadeIds :
+                await self.hubManager.do_moveto(shadeGroup.hubId, shade, position)
 
     async def StopShade(self, shadeGroupId: str):
         shadeGroup: ShadeGroup
@@ -32,21 +33,23 @@ class ShadeManager():
         if not shadeGroupId in self.shadeGroups :
             raise InvalidShadeGroup("Cannot find shade group {shadeGroupId}")
         else:
-            shadeGroup = self.shadeGroups[shadeGroupId]
+            shadeGrouping = self.shadeGroups[shadeGroupId]
         
-        for shade in shadeGroup.shadeIds :
-            await self.hubManager.do_stop(shadeGroup.hubId, shade)
+        for shadeGroup in shadeGrouping :
+            for shade in shadeGroup.shadeIds :
+                await self.hubManager.do_stop(shadeGroup.hubId, shade)
 
 
     def GetShadeGroupPosition(self, shadeGroupId: str):
         if not shadeGroupId in self.shadeGroups :
             raise InvalidShadeGroup("Cannot find shade group {shadeGroupId}")
         else:
-            shadeGroup = self.shadeGroups[shadeGroupId]
+            shadeGrouping = self.shadeGroups[shadeGroupId]
         
         totalPositions = 0
-        for shade in shadeGroup.shadeIds :
-            position = self.hubManager.get_position(shadeGroup.hubId, shade)
-            totalPositions+=position
+        for shadeGroup in shadeGrouping :
+            for shade in shadeGroup.shadeIds :
+                position = self.hubManager.get_position(shadeGroup.hubId, shade)
+                totalPositions+=position
 
         return totalPositions / len(shadeGroup.shadeIds)
