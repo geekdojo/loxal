@@ -13,8 +13,8 @@ class ShadeGroup():
     @staticmethod
     def Populate():
         shadeGroups = dict([
-            ("All", [ShadeGroup("192.168.201.20", "All", ["FLI", "EBH", "YQP", "KTB", "KXJ", "NKK", "CYV"]), ShadeGroup("192.168.201.30", "All", ["CIH","GOV","UUJ", "EIF", "CGZ"])]),
-            ("Dining", [ShadeGroup("192.168.201.20", "Dining", ["FLI", "EBH"])]),
+            ("All", [ShadeGroup("192.168.201.20", "All", ["FLI", "EBH", "YQP", "KTB", "KXJ", "NKK", "CYV"]), ShadeGroup("192.168.201.30", "All", ["CIH","GOV","UUJ", "EIF", "CGZ", "BPG"])]),
+            ("Dining", [ShadeGroup("192.168.201.30", "Dining", ["BPG"]), ShadeGroup("192.168.201.20", "Dining", ["FLI"])]),
             ("Kitchen", [ShadeGroup("192.168.201.20", "Kitchen", ["YQP"])]),
             ("LivingEast", [ShadeGroup("192.168.201.30", "LivingEast", ["CIH","GOV","UUJ"])]),
             ("LivingSouth", [ShadeGroup("192.168.201.30", "LivingSouth", ["EIF"])]),
