@@ -1,0 +1,10 @@
+[Unit]
+Description=Weather Service
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/usr/bin/python /home/pi/src/loxal/weather/weather.service.py > /home/pi/src/loxal/weather/weather.service.log 2>&1
+
+[Install]
+WantedBy=multi-user.target
