@@ -21,7 +21,7 @@ if __name__=='__main__':
     while True:
         response = requests.get(_URL)
         weather_data = json.loads(response.text)
-        _UDP_MESSAGE = weather_data["current"]["temperature_2m"]                 
+        _UDP_MESSAGE = str(weather_data["current"]["temperature_2m"])
         _logger.debug(f"Current outside temp:{_UDP_MESSAGE}")
 
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
