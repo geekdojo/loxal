@@ -31,12 +31,13 @@ if __name__=='__main__':
             humidity = str(weather_data["current"]["relative_humidity_2m"])
             wind_speed = str(weather_data["current"]["wind_speed_10m"])
             rain = str(weather_data["current"]["rain"])
+            sendUdp(temperature, _UDP_PORT_TEMPERATURE)
             _logger.debug(f"Current outside temp:{temperature}")
         except Exception as e:
             _logger.error(f"Error fetching weather data: {e}")
             time.sleep(900)
             continue
-        
+
         time.sleep(900)
 
         
